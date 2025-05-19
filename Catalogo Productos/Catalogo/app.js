@@ -61,7 +61,7 @@ function mostrarMensaje(mensaje) {
 function mostrarCategorias(categorias) {
   contenedorCategorias.innerHTML = ''; // Limpiar el contenedor antes de agregar nuevas categorías
   categorias.forEach(cat => {
-    const btn = document.createElement("button"); // Cambié "categoriaDiv" a "btn"
+    const btn = document.createElement("button"); 
     btn.textContent = cat === "all" ? "Todos" : cat.charAt(0).toUpperCase() + cat.slice(1);
     btn.className = `px-4 py-2 rounded-full ${
       categoriaSeleccionada === cat ? "bg-white hover:bg-blue-600 text-yellow" : "bg-white hover:bg-blue-600 text-black"

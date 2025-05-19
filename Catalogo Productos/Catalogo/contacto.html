@@ -47,7 +47,7 @@
       localStorage.removeItem('token');
       window.location.href = 'login.html';
     });
-    //--- si no hay token, redirigir a login
+    // Redirigir a login
     if (!localStorage.getItem('token')) {
       window.location.href = 'login.html';
     }
