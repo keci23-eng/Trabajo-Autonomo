@@ -3,7 +3,7 @@ const inputBusqueda = document.getElementById('busqueda'); // Corregido de "impu
 const contenedorCategorias = document.getElementById('categorias');
 let productos = [];
 let categoriaSeleccionada = "all";
- 
+
 async function cargarProductos() {
   try {
     mostrarMensaje('Cargando productos...'); // Mensaje de carga
@@ -64,7 +64,7 @@ function mostrarCategorias(categorias) {
     const btn = document.createElement("button"); // Cambié "categoriaDiv" a "btn"
     btn.textContent = cat === "all" ? "Todos" : cat.charAt(0).toUpperCase() + cat.slice(1);
     btn.className = `px-4 py-2 rounded-full ${
-      categoriaSeleccionada === cat ? "bg-blue-500 text-yellow" : "bg-blue-100 text-blue-500"
+      categoriaSeleccionada === cat ? "bg-white hover:bg-blue-600 text-yellow" : "bg-white hover:bg-blue-600 text-black"
     } font-semibold mr-2 mb-2 transition-colors duration-300`;
     btn.addEventListener("click", () => {
       categoriaSeleccionada = cat;
@@ -76,16 +76,23 @@ function mostrarCategorias(categorias) {
 }
 
 function mostrarProductos(products) {
-  contenedorProductos.innerHTML = ''; // Limpiar el contenedor antes de agregar nuevos productos
+  contenedorProductos.innerHTML = '';
   products.forEach(product => {
     const productDiv = document.createElement('div');
     productDiv.className =
-      'bg-white rounded-lg shadow-md p-4 flex flex-col items-center hover:shadow-xl transition-shadow duration-300';
+      'bg-white rounded-lg shadow-md p-4 flex flex-col items-center hover:shadow-white transition-shadow duration-300';
     productDiv.innerHTML = `
       <img src="${product.image}" alt="${product.title}" class="w-32 h-32 object-cover mb-4 rounded-lg">
       <h2 class="text-lg font-semibold mb-2">${product.title}</h2>
       <p class="text-gray-700 mb-2">$${product.price}</p>
+      <button class="ver-detalles-btn bg-black text-white px-4 py-2 rounded hover:bg-blue-600 transition-colors duration-300 mt-2">Ver detalles</button>
     `;
+    // Botón ver detalles
+    const verDetallesBtn = productDiv.querySelector('.ver-detalles-btn');
+    verDetallesBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      window.location.href = `detalle.html?id=${product.id}`;
+    });
     contenedorProductos.appendChild(productDiv);
   });
 }
@@ -95,5 +102,32 @@ function mostrarProductos(products) {
 document.addEventListener('DOMContentLoaded', () => {
   cargarCategorias();
   cargarProductos();
- 
+
 });
+
+// --- Cierre de sesión ---
+const logoutBtn = document.getElementById('logoutBtn');
+
+function mostrarBotonLogout() {
+  if (localStorage.getItem('token')) {
+    logoutBtn.classList.remove('hidden');
+  } else {
+    logoutBtn.classList.add('hidden');
+  }
+}
+
+if (logoutBtn) {
+  mostrarBotonLogout();
+  logoutBtn.addEventListener('click', () => {
+    localStorage.removeItem('token');
+    window.location.href = 'login.html';
+  });
+}
+
+// Redirección si no hay token 
+if (!localStorage.getItem('token')) {
+  window.location.href = 'login.html';
+}
+
+
+
